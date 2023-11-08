@@ -1,0 +1,14 @@
+COPY pop FROM '/work/data/pop_data/data/prefs/chiba/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/chiba/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/gumma/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/gumma/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/ibaraki/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/ibaraki/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/kanagawa/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/kanagawa/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/saitama/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/saitama/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/tochigi/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/tochigi/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/tokyo/2019/01/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
+COPY pop FROM '/work/data/pop_data/data/prefs/tokyo/2020/04/monthly_mdp_mesh1km.csv' with (format csv, header true, null '', force_null(population));
