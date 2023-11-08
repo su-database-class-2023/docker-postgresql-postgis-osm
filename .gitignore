@@ -1,5 +1,9 @@
 .history
 docker/db/data
-docker/sample/*.sql
-docker/db/*
-postgis-osm/*
+#docker/sample/*.sql
+#docker/db/*
+postgis-osm/osm/*
+!postgis-osm/osm/osmtest.md
+postgis-osm/pop_data/data/*
+postgis-osm/pop_data/JPN_adm/*
+!postgis-osm/pop_data/tutorial.md

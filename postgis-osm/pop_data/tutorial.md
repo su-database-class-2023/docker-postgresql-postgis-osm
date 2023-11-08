@@ -1,4 +1,13 @@
-# Tutorial
+# Import spatial data to postgreSQL
+
+データベースシステム講義資料
+version 0.0.1
+authors: N. Tsutsumida
+
+Copyright (c) 2023 Narumasa Tsutsumida
+Released under the MIT license
+https://opensource.org/licenses/mit-license.php
+
 
 ## 1. 境界データのインポート
 はじめに、日本の市町村の境界を示す`JPN_adm2.shp`をインポートしてみよう。
@@ -65,7 +74,7 @@ osm2pgsql --create --database=gisdb --slim --style=./default.style -U postgres -
 
 データは(G空間情報センター)[https://www.geospatial.jp/ckan/dataset/mlit-1km-fromto]より取得している。
 1km^2でかつ一月ごとの集計データが入手可能。
-データのダウンロードに時間がかかるので、すでに入手したものを`/work/data/pop_data`に`mesh1.zip`と`prefs.zip`をおいている。
+データのダウンロードに時間がかかるので、すでに入手したものを`/work/data/pop_data/data`に`mesh1.zip`と`prefs.zip`をおいている。
 `mesh1.zip`には、1km^2のグリッドデータ`mesh1.shp`がふくまれており、人流データの各データの位置と範囲を規定している。
 `prefs.zip`には関東圏の1都6県の月別の人流データが格納されている。
 この講義では負荷軽減のため感染拡大前の2019年1月、東京・神奈川・埼玉・千葉で緊急事態宣言が発出された期間（2020/4/7-2020/5/21）におおよそあたる2020年4月の集計データのみを使用する。
@@ -74,7 +83,7 @@ osm2pgsql --create --database=gisdb --slim --style=./default.style -U postgres -
 `mesh1.zip`を解凍する。
 
 ```
-unzip mesh1.zip -d /work/data/pop_data/data
+unzip /work/data/pop_data/data/mesh1.zip -d /work/data/pop_data/data
 ```
 
 #### 3.1.1. sqlコマンドの作成
@@ -127,7 +136,7 @@ CREATE TABLE "pop" (
 ```
 #### 3.2.3. csvデータのインポート
 `pop_data`には1都6県の月別人流データが含まれている。
-zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を作成し、`/work/data/pop_data`に配置する。
+zipを解凍してcsvファイルを取り出し、かつpostgresqlにインポートするためのsqlコマンドを作成するshellスクリプト（`copy_csv.sh`）を作成し、`/work/data/pop_data`に配置する（すでにあるはず）。
 
 
 ```sh
@@ -146,7 +155,7 @@ done
 ```
 作成したシェルを実行する．
 ```sh
-sh ./copy_csv.sh
+sh /work/data/pop_data/copy_csv.sh
 ```
 
 このシェルで作られた`copy_csv.sql`を実行してDBにデータをインポートする.
@@ -163,7 +172,11 @@ psql -U postgres -d gisdb -f /work/data/pop_data/copy_csv.sql
 である。
 ここでは2019年1月の休日・昼を考えてみよう。
 
-以下をQGISのDB Managerで実行する。
+以下をpsqlより実行して確認する。
+
+```sh
+psql -U postgres -d gisdb
+```
 ```sql
 SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2019';
 
@@ -171,11 +184,7 @@ SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d I
 
 #### 3.2.5. レコード数のチェック
 上記の問い合わせ処理のビューを作成してみる。
-まずgisdbに接続する。
-```
-psql -U postgres -d gisdb
-```
-SQLで2020, 2021年のデータ休日昼間のviewを作成する。
+gisdbに接続した状態で、SQLで2020, 2021年のデータ休日昼間のviewを作成する。
  ```sql
 
 CREATE VIEW pop201901 AS SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2019';
