@@ -109,7 +109,7 @@ psql -U postgres -d gisdb -f /work/data/pop_data/data/mesh1/mesh1.sql
 ### 3.2. 人流データ(csv)のインポート
 一月ごとの集計データが入手可能。
 `prefs.zip`には、関東圏の1都6県の月別の人流データが格納されている。
-この講義では負荷軽減のため2019年1月、2020年4月の集計データのみを使用する。
+この講義では負荷軽減のため2019年4月、2020年4月、2021年4月の集計データのみを使用する。
 
 #### 3.2.1. gisdbにアクセス
 ```
@@ -187,15 +187,19 @@ SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d I
 gisdbに接続した状態で、SQLで2020, 2021年のデータ休日昼間のviewを作成する。
  ```sql
 
-CREATE VIEW pop201901 AS SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2019';
+CREATE VIEW pop201904 AS SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2019';
 
 CREATE VIEW pop202004 AS SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2020';
+
+CREATE VIEW pop202104 AS SELECT p.name, d.prefcode, d.year, d.month, d.population, p.geom FROM pop AS d INNER JOIN pop_mesh AS p ON p.name = d.mesh1kmid WHERE d.dayflag='0' AND d.timezone='0' AND d.year='2021';
+
 ```
 
 ```sql
 select count(name) from pop_mesh;
-select count(name) from pop201901;
+select count(name) from pop201904;
 select count(name) from pop202004;
+select count(name) from pop202104;
 ```
 
 ## References
