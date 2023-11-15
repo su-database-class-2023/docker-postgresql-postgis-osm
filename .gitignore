@@ -4,6 +4,7 @@ docker/db/data
 #docker/db/*
 postgis-osm/osm/*
 !postgis-osm/osm/osmtest.md
+postgis-osm/pop_data/copy_csv.sql
 postgis-osm/pop_data/data/*
 postgis-osm/pop_data/JPN_adm/*
 !postgis-osm/pop_data/tutorial.md
